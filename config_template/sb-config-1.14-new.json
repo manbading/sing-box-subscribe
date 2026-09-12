@@ -1,0 +1,136 @@
+{
+  "http_clients": [{"tag": "default","version": 2,"detour": "DNS解析"}],
+	"dns": {
+		"servers": [
+      {
+        "tag": "hosts_fix","type": "hosts","predefined": {
+          "dns.alidns.com": ["223.5.5.5","223.6.6.6"],
+          "dns.google": ["8.8.8.8","8.8.4.4"],
+          "cloudflare-dns.com": ["104.16.248.249","104.16.249.249"]}
+      },
+      {"tag": "cf-doh","type": "https","server": "cloudflare-dns.com","detour": "DNS解析","domain_resolver": "hosts_fix"},
+      {"tag": "gg-doh","type": "https","server": "dns.google","detour": "DNS解析","domain_resolver": "hosts_fix"},
+      {"tag": "ali-doh","type": "https","server": "dns.alidns.com","domain_resolver": "hosts_fix"},
+      {"tag": "ali-udp","type": "udp","server": "223.5.5.5"},
+			{"tag": "dns_direct","type": "local","neighbor_domain": [".local",".lan"]}
+		],
+		"rules": [
+			{"clash_mode": "Direct", "server": "dns_direct"},
+			{"clash_mode": "Global", "query_type": ["A", "AAAA"], "server": "cf-doh"},
+			{"domain_keyword": ["iot"],"server": "dns_direct"},
+			{"domain_suffix": ["nba.com", "aicoin.com"],"server": "cf-doh"},
+			{"domain_suffix": ["3gppnetwork.org"],"server": "dns_direct"},
+			{"domain": ["gspe1-ssl.ls.apple.com"],"server": "cf-doh"},
+			{"rule_set": ["category-cryptocurrency", "mycrypto"],"query_type": ["A", "AAAA"], "server": "cf-doh"},
+			{"rule_set": ["cn", "synology","apple"],"query_type": ["A", "AAAA"], "server": "dns_direct"},
+			{"source_ip_cidr": [ "10.10.10.25/32" ], "server": "dns_direct"}
+		],
+    "optimistic": true,
+    "strategy": "prefer_ipv4",
+		"final": "cf-doh"
+	},
+  "outbounds": [
+    { "tag": "DNS解析", "type": "selector", "outbounds": [ "🇭🇰 香港", "🇯🇵 日本" ] ,"default": "🇭🇰 香港","interrupt_exist_connections": true },
+    { "tag": "📹 油管", "type": "selector", "outbounds": [ "🇺🇲 美国", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🚀 其他", "📥下载" ] ,"default": "🇺🇲 美国","interrupt_exist_connections": true },
+    { "tag": "🎥 流媒体", "type": "selector", "outbounds": [ "🇭🇰 香港", "🇸🇬 狮城", "🇨🇳 台湾", "🇯🇵 日本", "🇺🇲 美国", "🚀 其他", "📥下载" ] ,"default": "🇭🇰 香港","interrupt_exist_connections": true },
+    { "tag": "🎮 游戏", "type": "selector", "outbounds": [ "🎮 游戏节点", "🇯🇵 日本", "🇭🇰 香港", "🇸🇬 狮城", "🇨🇳 台湾", "🇺🇲 美国", "🚀 其他", "DIRECT" ] ,"default": "🎮 游戏节点","interrupt_exist_connections": true },
+    { "tag": "🌍 国外网站", "type": "selector", "outbounds": [ "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🇺🇲 美国", "🚀 其他", "📥下载" ] ,"default": "🇭🇰 香港","interrupt_exist_connections": true },
+    { "tag": "🪟 微软服务", "type": "selector", "outbounds": [ "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🇺🇲 美国", "🚀 其他", "📥下载", "DIRECT" ] ,"default": "🇭🇰 香港","interrupt_exist_connections": true },
+    { "tag": "🇬 谷歌服务", "type": "selector", "outbounds": [ "🇺🇲 美国", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🚀 其他", "📥下载" ] ,"default": "🇺🇲 美国","interrupt_exist_connections": true },
+    { "tag": "🍎 苹果服务", "type": "selector", "outbounds": [ "DIRECT", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🇺🇲 美国", "🚀 其他", "📥下载" ] ,"default": "DIRECT","interrupt_exist_connections": true },
+    { "tag": "📲 电报消息", "type": "selector", "outbounds": [ "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🇺🇲 美国", "🚀 其他", "📥下载" ] ,"default": "🇭🇰 香港","interrupt_exist_connections": true },
+    { "tag": "🧠 智能助理", "type": "selector", "outbounds": [ "🇺🇲 美国", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🚀 其他", "📥下载" ] ,"default": "🇺🇲 美国","interrupt_exist_connections": true },
+    { "tag": "🏀 NBA", "type": "selector", "outbounds": [ "🇨🇳 台湾", "🇺🇲 美国", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🚀 其他", "📥下载", "DIRECT" ] ,"default": "🇨🇳 台湾","interrupt_exist_connections": true },
+    { "tag": "🪙 加密货币", "type": "selector", "outbounds": [ "🇨🇳 台湾", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇺🇲 美国", "🚀 其他", "📥下载", "DIRECT" ] ,"default": "🇨🇳 台湾","interrupt_exist_connections": true },
+    { "tag": "🅿️ PayPal", "type": "selector", "outbounds": [ "🇬🇧 英国", "🇩🇪 德国", "🇺🇲 美国", "🇨🇳 台湾", "🇭🇰 香港", "🚀 其他" ] ,"default": "🇬🇧 英国","interrupt_exist_connections": true },
+    { "tag": "🐟 漏网之鱼", "type": "selector", "outbounds": [ "📥下载", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🇺🇲 美国", "🚀 其他", "DIRECT" ] ,"default": "📥下载","interrupt_exist_connections": true },
+    { "tag": "DIRECT", "type": "direct" },
+    { "tag": "GLOBAL", "type": "selector", "outbounds": [ "DIRECT", "📹 油管", "🎥 流媒体", "🎮 游戏", "🌍 国外网站", "🪟 微软服务", "🇬 谷歌服务", "🍎 苹果服务", "📲 电报消息", "🧠 智能助理",  "🏀 NBA", "🪙 加密货币", "🅿️ PayPal", "🐟 漏网之鱼", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🇺🇲 美国", "🇬🇧 英国", "🇩🇪 德国", "🚀 其他", "📥下载" ] },
+    { "tag": "🇭🇰 香港", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["🇭🇰|HK|hk|香港|港|HongKong"]}, {"action": "exclude","keywords": ["实验"]}]},
+    { "tag": "🇯🇵 日本", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["🇯🇵|JP|jp|日本|日|Japan"]}]},
+    { "tag": "🇸🇬 狮城", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["🇸🇬|SG|sg|新加坡|狮|Singapore"]}]},
+    { "tag": "🇨🇳 台湾", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"]}]},
+    { "tag": "🇺🇲 美国", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["🇺🇸|US|us|美国|美|United States"]}]},
+    { "tag": "🇬🇧 英国", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["🇬🇧"]}]},
+    { "tag": "🇩🇪 德国", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["🇩🇪"]}]},
+    { "tag": "🎮 游戏节点", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["家宽|游戏"]}]},	
+    { "tag": "🚀 其他", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"exclude","keywords":["🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美"]}]},
+    { "tag": "📥下载", "type": "selector", "outbounds":["{all}"],"filter":[{"action":"include","keywords":["实验"]}]}
+  ],
+  "route": {
+    "default_domain_resolver": "ali-udp",
+    "default_http_client": "default",
+    "auto_detect_interface": true,
+    "find_process": true,
+    "final": "🐟 漏网之鱼",
+    "rules": [
+      {"action": "sniff"},
+      { "rule_set": [ "private", "synology" ],"action": "route", "outbound": "DIRECT" },
+      { "rule_set": [ "youtube" ],"action": "route", "outbound": "📹 油管" },
+      { "rule_set": [ "netflix", "disney", "primevideo", "hbo", "tiktok", "spotify", "tidal" ],"action": "route", "outbound": "🎥 流媒体" },
+      { "rule_set": [ "playstation", "xbox", "nintendo", "epicgames", "ubisoft", "2kgames", "ea", "rockstar" ],"action": "route", "outbound": "🎮 游戏" },
+      { "domain_keyword": [ "activision", "callofduty", "demonware.net", "forzamotorsport" ],"action": "route", "outbound": "🎮 游戏" },
+      { "domain_keyword": [ "steamcommunity.com", "steampowered.com", "steamstatic.com", "ctm.net", "docker" ],"action": "route", "outbound": "🌍 国外网站" },
+      { "domain_suffix": [ "dmm.co.jp" ],"action": "route", "outbound": "🇯🇵 日本" },
+      { "domain_keyword": [ "gspe1-ssl.ls.apple.com", "apple-relay", "tktn.be", "javdb" ],"action": "route", "outbound": "🇺🇲 美国" },
+      { "rule_set": [ "ai", "javdb" ],"action": "route", "outbound": "🧠 智能助理" },
+      { "rule_set": [ "steam" ],"action": "route", "outbound": "DIRECT" },
+      { "rule_set": [ "microsoft" ],"action": "route", "outbound": "🪟 微软服务" },
+      { "rule_set": [ "apple" ],"action": "route", "outbound": "🍎 苹果服务" },
+      { "rule_set": [ "google" ],"action": "route", "outbound": "🇬 谷歌服务" },
+      { "rule_set": [ "category-cryptocurrency", "mycrypto" ],"action": "route", "outbound": "🪙 加密货币" },
+      { "rule_set": [ "paypal" ],"action": "route", "outbound": "🅿️ PayPal" },
+      { "rule_set": [ "HK-wallet" ],"action": "route", "outbound": "🇭🇰 香港" },
+      { "rule_set": [ "UK-wallet" ],"action": "route", "outbound": "🇬🇧 英国" },
+      { "rule_set": [ "DE-wallet" ],"action": "route", "outbound": "🇩🇪 德国" },
+      { "rule_set": [ "SG-wallet" ],"action": "route", "outbound": "🇸🇬 狮城" },
+      { "domain_keyword": [ "nba" ],"action": "route", "outbound": "🏀 NBA" },
+      { "rule_set": [ "telegram" ],"action": "route", "outbound": "📲 电报消息" },
+      { "rule_set": [ "proxy", "ibkr" ],"action": "route", "outbound": "🌍 国外网站" },
+      {"action": "resolve"},
+      { "ip_cidr": [ "208.54.0.0/16", "66.94.0.0/19", "150.230.106.108/32" ],"action": "route", "outbound": "DIRECT" },
+      { "source_ip_cidr": [ "10.10.10.2/32","10.10.10.25/32" ],"action": "route", "outbound": "DIRECT" },
+      { "rule_set": [ "cn", "category-pt", "cnip" ],"action": "route", "outbound": "DIRECT" },
+      { "ip_version": 4, "network": [ "udp" ],"action": "route", "outbound": "🎮 游戏" }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": ["private","youtube","netflix","disney","primevideo","hbo","tiktok","spotify","tidal","playstation","xbox","nintendo",
+        "epicgames","ubisoft","2kgames","ea","rockstar","steam","microsoft","apple","google","paypal","ibkr","category-cryptocurrency","javdb","category-pt","synology","cn" ],
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/{tag}.srs"
+      },
+      {
+        "type": "remote",
+        "tag": ["HK-wallet","DE-wallet","SG-wallet","UK-wallet","mycrypto"],
+        "format": "binary",
+        "url": "https://github.com/manbading/my-rules/raw/refs/heads/sing/{tag}.srs"
+      },
+      {
+        "type": "remote",
+        "tag": ["telegram"],
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/{tag}.srs"
+      },
+      {
+        "type": "remote",
+        "tag": ["cnip"],
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs"
+      },
+      {
+        "tag": "proxy",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo-lite/geosite/proxy.srs"
+      },
+      {
+        "tag": "ai",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/ai.srs"
+      }
+    ]
+  }
+}
