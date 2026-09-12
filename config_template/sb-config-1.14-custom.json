@@ -1,0 +1,824 @@
+{
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns_direct",
+        "type": "local"
+      },
+      {
+        "tag": "dns_proxy",
+        "type": "https",
+        "server": "cloudflare-dns.com",
+        "server_port": 443,
+        "domain_resolver": "dns_direct",
+        "detour": "DNS解析"
+      },
+      {
+        "tag": "dns_fakeip",
+        "type": "fakeip",
+        "inet4_range": "28.0.0.0/8",
+        "inet6_range": "fc00::/16"
+      },
+      {
+        "tag": "dns_resolver",
+        "type": "https",
+        "server": "223.5.5.5",
+        "server_port": 443
+      }
+    ],
+    "rules": [
+      {
+        "clash_mode": "Direct",
+        "server": "dns_direct",
+        "action": "route"
+      },
+      {
+        "clash_mode": "Global",
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "dns_proxy",
+        "action": "route"
+      },
+      {
+        "domain_keyword": [
+          "iot"
+        ],
+        "server": "dns_direct",
+        "action": "route"
+      },
+      {
+        "domain_suffix": [
+          "nba.com",
+          "aicoin.com"
+        ],
+        "server": "dns_proxy",
+        "action": "route"
+      },
+      {
+        "domain_suffix": [
+          "3gppnetwork.org"
+        ],
+        "server": "dns_direct",
+        "action": "route"
+      },
+      {
+        "domain": [
+          "gspe1-ssl.ls.apple.com"
+        ],
+        "server": "dns_proxy",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "crypto",
+          "mycrypto"
+        ],
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "dns_proxy",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "cnsite",
+          "synology",
+          "apple"
+        ],
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "dns_direct",
+        "action": "route"
+      },
+      {
+        "source_ip_cidr": [
+          "10.10.10.25/32"
+        ],
+        "server": "dns_direct",
+        "action": "route"
+      }
+    ],
+    "final": "dns_proxy",
+    "strategy": "ipv4_only",
+    "independent_cache": true,
+    "reverse_mapping": true,
+    "client_subnet": "61.139.2.69/32"
+  },
+  "outbounds": [
+    {
+      "tag": "DNS解析",
+      "type": "selector",
+      "outbounds": [
+        "🇭🇰 香港",
+        "🇯🇵 日本"
+      ]
+    },
+    {
+      "tag": "📹 油管",
+      "type": "selector",
+      "outbounds": [
+        "🇺🇲 美国",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "🎥 流媒体",
+      "type": "selector",
+      "outbounds": [
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇨🇳 台湾",
+        "🇯🇵 日本",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "🎮 游戏",
+      "type": "selector",
+      "outbounds": [
+        "🎮 游戏节点",
+        "🇯🇵 日本",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "DIRECT"
+      ]
+    },
+    {
+      "tag": "🌍 国外网站",
+      "type": "selector",
+      "outbounds": [
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "🪟 微软服务",
+      "type": "selector",
+      "outbounds": [
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "📥下载",
+        "DIRECT"
+      ]
+    },
+    {
+      "tag": "🇬 谷歌服务",
+      "type": "selector",
+      "outbounds": [
+        "🇺🇲 美国",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "🍎 苹果服务",
+      "type": "selector",
+      "outbounds": [
+        "DIRECT",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "📲 电报消息",
+      "type": "selector",
+      "outbounds": [
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "🧠 智能助理",
+      "type": "selector",
+      "outbounds": [
+        "🇺🇲 美国",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "🏀 NBA",
+      "type": "selector",
+      "outbounds": [
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🚀 其他",
+        "📥下载",
+        "DIRECT"
+      ]
+    },
+    {
+      "tag": "🪙 加密货币",
+      "type": "selector",
+      "outbounds": [
+        "🇨🇳 台湾",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "📥下载",
+        "DIRECT"
+      ]
+    },
+    {
+      "tag": "🅿️ PayPal",
+      "type": "selector",
+      "outbounds": [
+        "🇬🇧 英国",
+        "🇩🇪 德国",
+        "🇺🇲 美国",
+        "🇨🇳 台湾",
+        "🇭🇰 香港",
+        "🚀 其他"
+      ]
+    },
+    {
+      "tag": "🐟 漏网之鱼",
+      "type": "selector",
+      "outbounds": [
+        "📥下载",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🚀 其他",
+        "DIRECT"
+      ]
+    },
+    {
+      "tag": "DIRECT",
+      "type": "direct"
+    },
+    {
+      "tag": "GLOBAL",
+      "type": "selector",
+      "outbounds": [
+        "DIRECT",
+        "📹 油管",
+        "🎥 流媒体",
+        "🎮 游戏",
+        "🌍 国外网站",
+        "🪟 微软服务",
+        "🇬 谷歌服务",
+        "🍎 苹果服务",
+        "📲 电报消息",
+        "🧠 智能助理",
+        "🏀 NBA",
+        "🪙 加密货币",
+        "🅿️ PayPal",
+        "🐟 漏网之鱼",
+        "🇭🇰 香港",
+        "🇸🇬 狮城",
+        "🇯🇵 日本",
+        "🇨🇳 台湾",
+        "🇺🇲 美国",
+        "🇬🇧 英国",
+        "🇩🇪 德国",
+        "🚀 其他",
+        "📥下载"
+      ]
+    },
+    {
+      "tag": "🇭🇰 香港",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "🇭🇰|HK|hk|香港|港|HongKong"
+          ]
+        },
+        {
+          "action": "exclude",
+          "keywords": [
+            "实验"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🇯🇵 日本",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "🇯🇵|JP|jp|日本|日|Japan"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🇸🇬 狮城",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "🇸🇬|SG|sg|新加坡|狮|Singapore"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🇨🇳 台湾",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🇺🇲 美国",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "🇺🇸|US|us|美国|美|United States"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🇬🇧 英国",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "🇬🇧|UK|uk|英国|英|United Kingdom"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🇩🇪 德国",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "🇩🇪|DE|de|德国|德|Germany"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🎮 游戏节点",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "家宽|游戏"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "🚀 其他",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "exclude",
+          "keywords": [
+            "🇭🇰|HK|hk|香港|港|HongKong|🇹🇼|TW|tw|台湾|臺灣|台|Taiwan|🇸🇬|SG|sg|新加坡|狮|Singapore|🇯🇵|JP|jp|日本|日|Japan|🇺🇸|US|us|美国|美|United States|🇬🇧|UK|uk|英国|英|United Kingdom|🇩🇪|DE|de|德国|德|Germany"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "📥下载",
+      "type": "selector",
+      "outbounds": [
+        "{all}"
+      ],
+      "filter": [
+        {
+          "action": "include",
+          "keywords": [
+            "实验"
+          ]
+        }
+      ]
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "rule_set": [
+          "private",
+          "synology"
+        ],
+        "outbound": "DIRECT",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "youtube"
+        ],
+        "outbound": "📹 油管",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "netflix",
+          "disney",
+          "primevideo",
+          "hbo",
+          "tiktok",
+          "spotify",
+          "tidal"
+        ],
+        "outbound": "🎥 流媒体",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "playstation",
+          "xbox",
+          "nintendo",
+          "epicgames",
+          "ubisoft",
+          "2kgames",
+          "ea",
+          "rockstar"
+        ],
+        "outbound": "🎮 游戏",
+        "action": "route"
+      },
+      {
+        "domain_keyword": [
+          "activision",
+          "callofduty",
+          "demonware.net",
+          "forzamotorsport"
+        ],
+        "outbound": "🎮 游戏",
+        "action": "route"
+      },
+      {
+        "domain_keyword": [
+          "steamcommunity.com",
+          "steampowered.com",
+          "steamstatic.com",
+          "ctm.net",
+          "docker"
+        ],
+        "outbound": "🌍 国外网站",
+        "action": "route"
+      },
+      {
+        "domain_suffix": [
+          "dmm.co.jp"
+        ],
+        "outbound": "🇯🇵 日本",
+        "action": "route"
+      },
+      {
+        "domain_keyword": [
+          "gspe1-ssl.ls.apple.com",
+          "apple-relay",
+          "tktn.be",
+          "javdb"
+        ],
+        "outbound": "🇺🇲 美国",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "ai",
+          "javdb"
+        ],
+        "outbound": "🧠 智能助理",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "steam"
+        ],
+        "outbound": "DIRECT",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "microsoft"
+        ],
+        "outbound": "🪟 微软服务",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "apple"
+        ],
+        "outbound": "🍎 苹果服务",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "google"
+        ],
+        "outbound": "🇬 谷歌服务",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "crypto",
+          "mycrypto"
+        ],
+        "outbound": "🪙 加密货币",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "paypal"
+        ],
+        "outbound": "🅿️ PayPal",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "HK-wallet"
+        ],
+        "outbound": "🇭🇰 香港",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "UK-wallet"
+        ],
+        "outbound": "🇬🇧 英国",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "DE-wallet"
+        ],
+        "outbound": "🇩🇪 德国",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "SG-wallet"
+        ],
+        "outbound": "🇸🇬 狮城",
+        "action": "route"
+      },
+      {
+        "domain_keyword": [
+          "nba"
+        ],
+        "outbound": "🏀 NBA",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "telegram"
+        ],
+        "outbound": "📲 电报消息",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "proxy",
+          "ibkr"
+        ],
+        "outbound": "🌍 国外网站",
+        "action": "route"
+      },
+      {
+        "ip_cidr": [
+          "208.54.0.0/16",
+          "66.94.0.0/19",
+          "150.230.106.108/32"
+        ],
+        "outbound": "DIRECT",
+        "action": "route"
+      },
+      {
+        "source_ip_cidr": [
+          "10.10.10.2/32",
+          "10.10.10.25/32"
+        ],
+        "outbound": "DIRECT",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "private"
+        ],
+        "outbound": "DIRECT",
+        "action": "route"
+      },
+      {
+        "rule_set": [
+          "cnsite",
+          "ptsite",
+          "cnip"
+        ],
+        "outbound": "DIRECT",
+        "action": "route"
+      },
+      {
+        "ip_version": 4,
+        "network": [
+          "udp"
+        ],
+        "outbound": "🎮 游戏",
+        "action": "route"
+      }
+    ],
+    "rule_set": [
+      {
+        "tag": [
+          "private",
+          "youtube",
+          "netflix",
+          "disney",
+          "primevideo",
+          "hbo",
+          "tiktok",
+          "spotify",
+          "tidal",
+          "playstation",
+          "xbox",
+          "nintendo",
+          "epicgames",
+          "ubisoft",
+          "2kgames",
+          "ea",
+          "rockstar",
+          "steam",
+          "microsoft",
+          "apple",
+          "google",
+          "javdb"
+        ],
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/{tag}.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/{tag}.srs"
+      },
+      {
+        "tag": [
+          "synology",
+          "ibkr",
+          "paypal"
+        ],
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/{tag}.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/{tag}.srs"
+      },
+      {
+        "tag": "proxy",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/proxy.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo-lite/geosite/proxy.srs"
+      },
+      {
+        "tag": "ai",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/ai.srs",
+        "url": "https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/ai.srs"
+      },
+      {
+        "tag": "telegram",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/telegram.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/telegram.srs"
+      },
+      {
+        "tag": [
+          "HK-wallet",
+          "DE-wallet",
+          "SG-wallet",
+          "UK-wallet"
+        ],
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/{tag}.srs",
+        "url": "https://github.com/manbading/my-rules/raw/refs/heads/sing/{tag}.srs"
+      },
+      {
+        "tag": "crypto",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/crypto.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/category-cryptocurrency.srs"
+      },
+      {
+        "tag": "mycrypto",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/mycrypto.srs",
+        "url": "https://github.com/manbading/my-rules/raw/refs/heads/sing/crypto.srs"
+      },
+      {
+        "tag": "ptsite",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/ptsite.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/sing/geo/geosite/category-pt.srs"
+      },
+      {
+        "tag": "cnsite",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/cnsite.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geosite/cn.srs"
+      },
+      {
+        "tag": "cnip",
+        "type": "remote",
+        "format": "binary",
+        "path": "./ruleset/cn.srs",
+        "url": "https://github.com/MetaCubeX/meta-rules-dat/raw/sing/geo/geoip/cn.srs"
+      }
+    ],
+    "final": "🐟 漏网之鱼",
+    "auto_detect_interface": true
+  }
+}
