@@ -29,6 +29,10 @@
     "strategy": "prefer_ipv4",
 		"final": "cf-doh"
 	},
+  "inbounds": [
+    {"tag": "tun-in","type": "tun","address": ["172.19.0.0/30","fdfe:dcba:9876::0/126"],"stack": "system","auto_route": true,"strict_route": true,"platform": {"http_proxy":{"enabled": true,"server": "127.0.0.1","server_port": 7890}}},
+    {"tag": "mixed-in","type": "mixed","listen": "127.0.0.1","listen_port": 7890}
+  ],
   "outbounds": [
     { "tag": "DNS解析", "type": "selector", "outbounds": [ "🇭🇰 香港", "🇯🇵 日本" ] ,"default": "🇭🇰 香港","interrupt_exist_connections": true },
     { "tag": "📹 油管", "type": "selector", "outbounds": [ "🇺🇲 美国", "🇭🇰 香港", "🇸🇬 狮城", "🇯🇵 日本", "🇨🇳 台湾", "🚀 其他", "📥下载" ] ,"default": "🇺🇲 美国","interrupt_exist_connections": true },
